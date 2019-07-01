@@ -991,9 +991,11 @@ namespace Microsoft.Build.BackEnd
             }
 
             var projectReferenceItems = _buildRequestEntry.RequestConfiguration.Project.GetItems(ItemTypeNames.ProjectReference);
-
+#if NETSTANDARD2_0
+            var declaredProjects = new HashSet<string>();
+#else
             var declaredProjects = new HashSet<string>(projectReferenceItems.Count);
-
+#endif
             foreach (var projectReferenceItem in projectReferenceItems)
             {
                 declaredProjects.Add(FileUtilities.NormalizePath(projectReferenceItem.EvaluatedInclude));
@@ -1191,6 +1193,6 @@ namespace Microsoft.Build.BackEnd
             }
         }
 
-        #endregion
+#endregion
     }
 }

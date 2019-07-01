@@ -352,7 +352,7 @@ namespace Microsoft.Build.Experimental.Graph
 
             foreach (var node in ProjectNodes)
             {
-                var nodeId = nodeIds.GetOrAdd(node, (n, idProvider) => idProvider(n), nodeIdProvider);
+                var nodeId = nodeIds.GetOrAdd(node, n => nodeIdProvider(n));
 
                 var nodeName = Path.GetFileNameWithoutExtension(node.ProjectInstance.FullPath);
                 var globalPropertiesString = string.Join(
@@ -364,7 +364,7 @@ namespace Microsoft.Build.Experimental.Graph
 
                 foreach (var reference in node.ProjectReferences)
                 {
-                    var referenceId = nodeIds.GetOrAdd(reference, (n, idProvider) => idProvider(n), nodeIdProvider);
+                    var referenceId = nodeIds.GetOrAdd(reference, n => nodeIdProvider(n));
 
                     sb.AppendLine($"\t{nodeId} -> {referenceId}");
                 }

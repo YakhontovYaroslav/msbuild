@@ -1408,7 +1408,11 @@ namespace Microsoft.Build.Execution
                 var graphBuildStateLock = new object();
 
                 var blockedNodes = new HashSet<ProjectGraphNode>(projectGraph.ProjectNodes);
+#if NETSTANDARD2_0
+                var finishedNodes = new HashSet<ProjectGraphNode>();
+#else      
                 var finishedNodes = new HashSet<ProjectGraphNode>(projectGraph.ProjectNodes.Count);
+#endif
                 var buildingNodes = new Dictionary<BuildSubmission, ProjectGraphNode>();
                 Dictionary<ProjectGraphNode, BuildResult> resultsPerNode = new Dictionary<ProjectGraphNode, BuildResult>(projectGraph.ProjectNodes.Count);
                 while (blockedNodes.Count > 0 || buildingNodes.Count > 0)
